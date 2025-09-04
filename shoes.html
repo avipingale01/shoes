@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SoleMate — Step Into Style</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <style>
+    :root {
+      --primary: #e50914;
+      --primary-light: #ff4d4d;
+      --primary-gradient: linear-gradient(135deg, var(--primary), #b0000a);
+      --dark: #121212;
+      --darker: #0a0a0a;
+      --muted: #6b6b6b;
+      --light-muted: #a0a0a0;
+      --bg: #ffffff;
+      --soft: #f2f2f4;
+      --card-bg: #f8f9fa;
+      --radius: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 8px 24px rgba(0,0,0,.12);
+      --shadow-hover: 0 12px 30px rgba(0,0,0,.18);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { scroll-behavior: smooth; height: 100%; }
+    body {
+      font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fa 100%);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #b0000a; }
+
+    /* Section layout */
+    .page {
+     
+      padding: 0px 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .page.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .wrap {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .wrap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary-gradient);
+    }
+    
+    h1, h2, h3 { font-weight: 700; }
+    h2 { font-size: 1.5rem; margin-bottom: 16px; position: relative; }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--primary-gradient);
+      border-radius: 3px;
+    }
+    
+    .muted { color: var(--muted); }
+    .text-center { text-align: center; }
+
+    /* Hero section */
+    .logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      background: var(--primary-gradient);
+      color: #fff;
+      font-size: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: rotate(15deg) scale(1.05);
+    }
+    
+    .hero h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin: 8px 0;
+      background: linear-gradient(135deg, var(--dark), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    
+    .tag {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .hero-img-container {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin: 12px 0 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hero-img-container:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .hero-img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    
+    .hero-img-container:hover .hero-img {
+      transform: scale(1.05);
+    }
+    
+    .btn {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:active { transform: translateY(2px); }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(229, 9, 20, 0.4);
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ff1a26, #c2000a);
+      box-shadow: 0 6px 18px rgba(229, 9, 20, 0.5);
+    }
+    
+    .btn-outline {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #fff;
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(229, 9, 20, 0.3);
+    }
+    
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    /* Cards & lists */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin: 12px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Services quick grid */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .service {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    .service:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+      border-color: var(--primary-light);
+    }
+    
+    .service i {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    /* Slider / Gallery */
+    .slider {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #000;
+    }
+    
+    .slides {
+      display: flex;
+      transition: transform 0.35s ease-out;
+      touch-action: pan-y;
+    }
+    
+    .slide {
+      min-width: 100%;
+      user-select: none;
+    }
+    
+    .slide img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .ctrl {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.9);
+      border: none;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    .ctrl:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .prev { left: 12px; }
+    .next { right: 12px; }
+    
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #d0d0d0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .dot:hover {
+      transform: scale(1.2);
+    }
+    
+    .dot.active {
+      background: var(--primary);
+      transform: scale(1.2);
+    }
+
+    /* Contact */
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: var(--radius);
+      margin: 12px 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    .contact-item:hover {
+      transform: translateX(5px);
+      box-shadow: var(--shadow);
+    }
+    
+    .contact-item i {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--primary-gradient);
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    
+    .pay {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    .pay:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      background: var(--primary);
+      color: white;
+    }
+    
+     .payment-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            background: #f1f1f1;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+        }
+        
+        .qr-code img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        
+        .payment-details {
+            text-align: center;
+        }
+        
+        .payment-details p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+
+    /* Share */
+    .qr {
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+    
+    .qr img {
+      width: 160px;
+      height: 160px;
+      margin: 12px 0;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .qr img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Bottom navbar */
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 10px 14px;
+      z-index: 50;
+      display: flex;
+      gap: 6px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      max-width: 520px;
+      width: calc(100% - 24px);
+      justify-content: space-between;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    
+    .nav::-webkit-scrollbar { display: none; }
+    
+    .nav a {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.75rem;
+      padding: 8px 10px;
+      border-radius: 12px;
+      min-width: 50px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav a i {
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .nav a.active {
+      background: var(--primary-gradient);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
+    }
+    
+    .nav a.active i {
+      transform: scale(1.15);
+    }
+    
+    .nav a:not(.active):hover {
+      color: var(--primary);
+    }
+    
+    .nav a:not(.active):hover i {
+      transform: translateY(-2px);
+    }
+
+    /* Animation classes */
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .animate-slideInUp {
+      animation: slideInUp 0.6s ease forwards;
+    }
+    
+    .animate-bounceIn {
+      animation: bounceIn 0.8s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    
+    /* Floating elements */
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Decorative elements */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--primary-light);
+      opacity: 0.1;
+      z-index: -1;
+    }
+    
+    /* Media queries */
+    @media (min-width: 560px) {
+      .slide img { height: 320px; }
+      .wrap { padding: 28px; }
+    }
+    
+    @media (max-width: 480px) {
+      .service-grid { grid-template-columns: 1fr; }
+     
+      .nav { padding: 8px 10px; }
+      .nav a { font-size: 0.7rem; padding: 6px 8px; min-width: 44px; }
+      .nav a i { font-size: 1rem; }
+    }
+    #share{
+        padding-bottom: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative background elements -->
+  <div class="circle" style="width: 300px; height: 300px; top: -150px; right: -150px;"></div>
+  <div class="circle" style="width: 200px; height: 200px; bottom: -100px; left: -100px;"></div>
+
+  <!-- NAVBAR -->
+  <nav class="nav" id="nav">
+    <a href="#home" data-sec="home" class="active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="#about" data-sec="about"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
+    <a href="#services" data-sec="services"><i class="fa-solid fa-list-check"></i><span>Services</span></a>
+    <a href="#gallery" data-sec="gallery"><i class="fa-regular fa-images"></i><span>Gallery</span></a>
+    <a href="#contact" data-sec="contact"><i class="fa-solid fa-phone"></i><span>Contact</span></a>
+    <a href="#find" data-sec="find"><i class="fa-solid fa-location-dot"></i><span>Find</span></a>
+    <a href="#payment" data-sec="payment"><i class="fa-regular fa-credit-card"></i><span>Pay</span></a>
+    <a href="#share" data-sec="share"><i class="fa-solid fa-share-nodes"></i><span>Share</span></a>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home" class="page">
+    <div class="wrap animate__animated animate__fadeIn">
+      <div class="logo floating"><i class="fa-solid fa-shoe-prints"></i></div>
+      <div class="hero">
+        <h1>SoleMate Shoes</h1>
+        <p class="tag">Step Into Style & Comfort</p>
+        <div class="hero-img-container">
+          <img class="hero-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80" alt="Sneaker pair"/>
+        </div>
+        <p class="muted text-center" style="margin-bottom: 14px;">Premium sneakers, trainers, formals & sports footwear. Walk with confidence!</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="tel:+919876543210"><i class="fa-solid fa-phone"></i> Call Now</a>
+          <a class="btn btn-primary" href="tel:+919876543210"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+
+          <a class="btn btn-outline" href="#find"><i class="fa-solid fa-map"></i> Get Directions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="page">
+    <div class="wrap">
+      <h2>About Us</h2>
+      <div class="card animate__animated">
+        <i class="fas fa-quote-left" style="color: var(--primary); margin-bottom: 8px;"></i>
+        Since 2010, we've curated global footwear that blends performance with everyday comfort. Our passion is helping you find the perfect pair.
+      </div>
+      <div class="card animate__animated">
+        <i class="fas fa-quote-left" style="color: var(--primary); margin-bottom: 8px;"></i>
+        From street-ready sneakers to boardroom classics—find your perfect fit with expert sizing help. We're not just selling shoes, we're enabling experiences.
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="page">
+    <div class="wrap">
+      <h2>Our Services</h2>
+      <div class="service-grid">
+        <div class="service animate__animated">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <div>Sneaker Drops</div>
+          <small class="muted">Latest releases</small>
+        </div>
+        <div class="service animate__animated">
+          <i class="fa-solid fa-spray-can-sparkles"></i>
+          <div>Cleaning & Care</div>
+          <small class="muted">Professional service</small>
+        </div>
+        <div class="service animate__animated">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <div>Repairs & Stretch</div>
+          <small class="muted">Expert craftsmanship</small>
+        </div>
+        <div class="service animate__animated">
+          <i class="fa-solid fa-truck-fast"></i>
+          <div>Fast Delivery</div>
+          <small class="muted">Free over $100</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="gallery" class="page">
+    <div class="wrap">
+      <h2>Gallery</h2>
+      <p class="muted" style="margin-bottom: 16px;">Explore our premium collection</p>
+      <div class="slider" id="slider">
+        <div class="slides" id="slides">
+    
+          <div class="slide"><img src="https://images.unsplash.com/photo-1528701800489-20be9c1fbf38?auto=format&fit=crop&w=1200&q=80" alt="Running shoes"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80" alt="Leather shoes"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?auto=format&fit=crop&w=1200&q=80" alt="Casual shoes"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1200&q=80" alt="White sneaker"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Basketball shoe"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Court shoe duplicate allowed"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Court shoe alt"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1520975922324-4b69ae3f2d3a?auto=format&fit=crop&w=1200&q=80" alt="Boots"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=1200&q=80" alt="Lifestyle sneaker"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1519741491562-7fef0b8c7c51?auto=format&fit=crop&w=1200&q=80" alt="Neon sneaker"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1200&q=80" alt="Running track shoes"></div>
+          <div class="slide"><img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1200&q=80" alt="Formal shoe"></div>
+        </div>
+        <button class="ctrl prev" id="prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="ctrl next" id="next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <p class="muted" style="margin-top: 14px; text-align: center">Swipe • Tap arrows • Auto-plays</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="page">
+    <div class="wrap">
+      <h2>Get In Touch</h2>
+      <div class="contact-item animate__animated">
+        <i class="fa-solid fa-phone"></i>
+        <div>
+          <strong>Phone</strong>
+          <div class="muted">+91 98765 43210</div>
+        </div>
+      </div>
+      <div class="contact-item animate__animated">
+        <i class="fa-solid fa-envelope"></i>
+        <div>
+          <strong>Email</strong>
+          <div class="muted">hello@solemate.com</div>
+        </div>
+      </div>
+      <div class="contact-item animate__animated">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div>
+          <strong>WhatsApp</strong>
+          <div class="muted">Chat for sizes & stock</div>
+        </div>
+      </div>
+      <div class="btn-row" style="justify-content: flex-start; margin-top: 16px;">
+        <a class="btn btn-primary" href="mailto:hello@solemate.com"><i class="fa-solid fa-envelope"></i> Send Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIND US -->
+  <section id="find" class="page">
+    <div class="wrap">
+      <h2>Find Us</h2>
+      <p class="muted" style="margin-bottom: 16px">SoleMate, MG Road, Mumbai</p>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019041907252!2d-122.41941508468152!3d37.77492927975916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c7f5d6d7b%3A0xe4c7b82a1d1f6b21!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1634558531234!5m2!1sen!2sus" 
+    width="100%" 
+    height="100%" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy">
+  </iframe>
+
+      <div class="card">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <i class="fa-solid fa-clock" style="color: var(--primary);"></i>
+          <strong>Opening Hours:</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Mon-Sat</span>
+          <span>10:00 AM - 9:00 PM</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Sunday</span>
+          <span>11:00 AM - 7:00 PM</span>
+        </div>
+      </div>
+      
+      <a class="btn btn-primary" href="https://maps.google.com?q=MG+Road+Mumbai" target="_blank" style="width: 100%; text-align: center; margin-top: 16px;">
+        <i class="fa-solid fa-location-dot"></i> Open in Maps
+      </a>
+    </div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section id="payment" class="page">
+    <div class="wrap">
+      <h2>Payment Options</h2>
+      <p class="muted" style="margin-bottom: 16px;">We accept multiple payment methods</p>
+      <div class="payment-content">
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=dummyupi@ybl&pn=DN%20Global%20Furniture&am=&cu=INR" alt="UPI QR Code">
+                <p>Scan to Pay</p>
+            </div>
+            
+            <div class="payment-details">
+                <p><strong>UPI ID:</strong> dummyupi@ybl</p>
+                <p><strong>PayTM No:</strong> +91 98765 43210</p>
+                
+                <a href="upi://pay?pa=dummyupi@ybl&pn=DN%20Global%20Furniture&am=&cu=INR" class="btn btn-primary" style="margin-top: 15px;">
+                    <i class="fas fa-money-bill-wave"></i> Pay Now
+                </a>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- SHARE -->
+  <section id="share" class="page">
+    <div class="wrap qr">
+      <h2>Share This Card</h2>
+      <p class="muted" style="margin-bottom: 8px;">Scan or share our digital business card</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://solemate.example" alt="QR code">
+      <div class="btn-row">
+        <a class="btn btn-primary" href="whatsapp://send?text=Check%20this%20Shoe%20Store%20card:%20https://solemate.example">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+        <button class="btn btn-outline" id="copyBtn" type="button">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
+      </div>
+      <small class="muted">Long-press QR to save</small>
+    </div>
+  </section>
+
+  <script>
+    // Section animation
+    const sections = [...document.querySelectorAll('.page')];
+    const links = [...document.querySelectorAll('.nav a')];
+
+    const byId = id => document.getElementById(id);
+    const setActive = (id) => {
+      links.forEach(a => a.classList.toggle('active', a.dataset.sec === id));
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('active');
+          setActive(e.target.id);
+          history.replaceState(null, '', '#' + e.target.id);
+          
+          // Animate child elements
+          const cards = e.target.querySelectorAll('.card, .service, .contact-item');
+          cards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('animate__animated', 'animate__fadeInUp');
+            }, index * 150);
+          });
+        }
+      });
+    }, { root: null, threshold: 0.5 });
+
+    sections.forEach(sec => io.observe(sec));
+
+    // Slider functionality
+    const slidesWrap = byId('slides');
+    const slider = byId('slider');
+    const prev = byId('prev');
+    const next = byId('next');
+    const dotsWrap = byId('dots');
+
+    const total = slidesWrap.children.length;
+    let index = 0, startX = 0, dx = 0, autoTimer;
+
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.dataset.i = i;
+      d.addEventListener('click', () => goTo(i, true));
+      dotsWrap.appendChild(d);
+    }
+    
+    const updateDots = () => [...dotsWrap.children].forEach((d, i) => d.classList.toggle('active', i === index));
+
+    const goTo = (i, stopAuto = false) => {
+      index = (i + total) % total;
+      slidesWrap.style.transform = `translateX(-${index * 100}%)`;
+      updateDots();
+      if (stopAuto) restartAuto();
+    };
+    
+    const nextSlide = () => goTo(index + 1);
+    const prevSlide = () => goTo(index - 1);
+
+    next.onclick = () => nextSlide();
+    prev.onclick = () => prevSlide();
+
+    // Touch events for mobile swipe
+    slider.addEventListener('touchstart', (e) => { 
+      startX = e.touches[0].clientX; 
+      dx = 0; 
+      stopAuto(); 
+    }, { passive: true });
+    
+    slider.addEventListener('touchmove', (e) => { 
+      dx = e.touches[0].clientX - startX; 
+      slidesWrap.style.transform = `translateX(calc(-${index * 100}% + ${dx}px))`; 
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', () => {
+      if (Math.abs(dx) > 60) (dx < 0 ? nextSlide() : prevSlide());
+      else goTo(index);
+      restartAuto();
+    });
+
+    // Auto slide
+    function startAuto() { autoTimer = setInterval(nextSlide, 3500); }
+    function stopAuto() { clearInterval(autoTimer); }
+    function restartAuto() { stopAuto(); startAuto(); }
+    startAuto();
+
+    // Copy link functionality
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('https://solemate.example');
+        
+        // Show feedback
+        const btn = document.getElementById('copyBtn');
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        btn.style.background = '#4CAF50';
+        btn.style.borderColor = '#4CAF50';
+        btn.style.color = '#fff';
+        
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 2000);
+      } catch (e) {
+        alert('Copy failed. Please manually copy the URL.');
+      }
+    });
+
+    // Add subtle hover effects to all interactive elements
+    document.querySelectorAll('.btn, .service, .card, .contact-item, .pay').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        el.style.transform = 'translateY(-3px)';
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
